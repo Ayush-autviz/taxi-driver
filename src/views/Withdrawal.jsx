@@ -225,7 +225,8 @@ const Withdrawal = (props) => {
           <LottieView style={{flex: 1}} source={btn_loader} autoPlay loop />
         </View>
       }
-     <DropdownAlert alert={func => (dropDownAlertRef = func)} />
+     <DropdownAlert safeViewStyle={{    flexDirection: 'row',
+    alignItems: 'center', marginTop:45}} alert={func => (dropDownAlertRef = func)} />
     </SafeAreaView>
   );
 };

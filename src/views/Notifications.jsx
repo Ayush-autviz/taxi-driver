@@ -163,7 +163,8 @@ const viewabilityConfigCallbackPairs = useRef([{onViewableItemsChanged}]);
           />
           </DropShadow>
       }
-     <DropdownAlert alert={func => (dropDownAlertRef = func)} />
+     <DropdownAlert safeViewStyle={{    flexDirection: 'row',
+    alignItems: 'center', marginTop:45}} alert={func => (dropDownAlertRef = func)} />
     </SafeAreaView>
   );
 };
