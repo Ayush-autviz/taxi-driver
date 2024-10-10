@@ -1,0 +1,49 @@
+{
+    "project_info": {
+      "project_number": "275435645121",
+      "firebase_url": "https://taxi-app-4bc1b-default-rtdb.firebaseio.com",
+      "project_id": "taxi-app-4bc1b",
+      "storage_bucket": "taxi-app-4bc1b.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:275435645121:android:01fba12788769bd4ea4c40",
+          "android_client_info": {
+            "package_name": "com.taxi2door_customer.customer"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDWveaif3ph4Ix8qivsWNIwjTzh9BLcCfQ"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      },
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:275435645121:android:217c6cf6daf184e6ea4c40",
+          "android_client_info": {
+            "package_name": "com.taxi2door_driver.driver"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDWveaif3ph4Ix8qivsWNIwjTzh9BLcCfQ"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

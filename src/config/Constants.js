@@ -1,62 +1,62 @@
 import { Dimensions } from "react-native";
 
 export const app_name = "Taxi2Door Driver";
-export const base_url = "https://b205-110-227-188-60.ngrok-free.app/";
-export const api_url = "https://b205-110-227-188-60.ngrok-free.app/api/";
-export const img_url = "https://b205-110-227-188-60.ngrok-free.app/uploads/";
+export const base_url = "https://2478-110-227-188-60.ngrok-free.app/";
+export const api_url = "https://2478-110-227-188-60.ngrok-free.app/api/";
+export const img_url = "https://2478-110-227-188-60.ngrok-free.app/uploads/";
 export const prefix = "driver/";
-export const failed_url = "paypal_failed"; 
-export const success_url = "paypal_success"; 
+export const failed_url = "paypal_failed";
+export const success_url = "paypal_success";
 
-export const app_settings = prefix+"app_settings";
-export const check_phone = prefix+"check_phone";
-export const login = prefix+"login";
-export const register = prefix+"register";
-export const forgot_password = prefix+"forgot_password";
-export const reset_password = prefix+"reset_password";
-export const change_online_status = prefix+"change_online_status";
-export const vehicle_type_list = prefix+"vehicle_type_list";
-export const dashboard = prefix+"dashboard";
-export const get_heatmap_coordinates = prefix+"get_heatmap_coordinates";
-export const vehicle_update = prefix+"vehicle_update";
-export const get_documents = prefix+"get_documents";
+export const app_settings = prefix + "app_settings";
+export const check_phone = prefix + "check_phone";
+export const login = prefix + "login";
+export const register = prefix + "register";
+export const forgot_password = prefix + "forgot_password";
+export const reset_password = prefix + "reset_password";
+export const change_online_status = prefix + "change_online_status";
+export const vehicle_type_list = prefix + "vehicle_type_list";
+export const dashboard = prefix + "dashboard";
+export const get_heatmap_coordinates = prefix + "get_heatmap_coordinates";
+export const vehicle_update = prefix + "vehicle_update";
+export const get_documents = prefix + "get_documents";
 export const image_upload = "image_upload";
-export const update_document = prefix+"update_document";
-export const get_about = prefix+"get_about";
-export const faq = prefix+"faq";
-export const trip_request_details = prefix+"trip_request_details"; 
-export const accept = prefix+"accept"; 
-export const reject = prefix+"reject"; 
-export const profile_update = prefix+"profile_update"; 
-export const profile_picture_upload = prefix+"profile_image_upload";
-export const profile_picture_update = prefix+"profile_picture_update";
-export const get_profile = prefix+"get_profile";
-export const trip_details = prefix+"trip_details"; 
-export const change_trip_status = prefix+"change_trip_status"; 
-export const trip_cancel = prefix+"trip_cancel";
-export const get_bill = prefix+"get_bill"; 
-export const my_bookings = prefix+"my_bookings";
-export const add_rating = prefix+"add_rating"; 
-export const get_notification_messages = prefix+"get_notification_messages"; 
-export const withdrawal_history = prefix+"withdrawal_history";
-export const withdrawal_request = prefix+"withdrawal_request";
-export const earnings = prefix+"earnings"; 
-export const tutorials = prefix+"tutorials"; 
-export const add_wallet = prefix+"add_wallet";
-export const payment_methods = prefix+"payment_methods";
-export const wallet = prefix+"wallet";
-export const update_kyc = prefix+"update_kyc";  
-export const get_kyc = prefix+"get_kyc";
-export const privacy_policies = prefix+"policy";
-export const change_driver_settings = prefix+"change_driver_settings";
-export const get_driver_settings = prefix+"get_driver_settings";
-export const get_ongoing_trip_details_shared = prefix+"get_ongoing_trip_details_shared"; 
-export const shared_trip_accept = prefix+"accept"; 
-export const shared_trip_reject = prefix+"reject";
-export const get_driver_today_bookings = prefix+"get_driver_today_bookings"; 
-export const gth_status_change = prefix+"gth_status_change"; 
-export const gth_location_change = prefix+"gth_location_change"; 
-export const gth_get_location = prefix+"gth_get_location"; 
+export const update_document = prefix + "update_document";
+export const get_about = prefix + "get_about";
+export const faq = prefix + "faq";
+export const trip_request_details = prefix + "trip_request_details";
+export const accept = prefix + "accept";
+export const reject = prefix + "reject";
+export const profile_update = prefix + "profile_update";
+export const profile_picture_upload = prefix + "profile_image_upload";
+export const profile_picture_update = prefix + "profile_picture_update";
+export const get_profile = prefix + "get_profile";
+export const trip_details = prefix + "trip_details";
+export const change_trip_status = prefix + "change_trip_status";
+export const trip_cancel = prefix + "trip_cancel";
+export const get_bill = prefix + "get_bill";
+export const my_bookings = prefix + "my_bookings";
+export const add_rating = prefix + "add_rating";
+export const get_notification_messages = prefix + "get_notification_messages";
+export const withdrawal_history = prefix + "withdrawal_history";
+export const withdrawal_request = prefix + "withdrawal_request";
+export const earnings = prefix + "earnings";
+export const tutorials = prefix + "tutorials";
+export const add_wallet = prefix + "add_wallet";
+export const payment_methods = prefix + "payment_methods";
+export const wallet = prefix + "wallet";
+export const update_kyc = prefix + "update_kyc";
+export const get_kyc = prefix + "get_kyc";
+export const privacy_policies = prefix + "policy";
+export const change_driver_settings = prefix + "change_driver_settings";
+export const get_driver_settings = prefix + "get_driver_settings";
+export const get_ongoing_trip_details_shared = prefix + "get_ongoing_trip_details_shared";
+export const shared_trip_accept = prefix + "accept";
+export const shared_trip_reject = prefix + "reject";
+export const get_driver_today_bookings = prefix + "get_driver_today_bookings";
+export const gth_status_change = prefix + "gth_status_change";
+export const gth_location_change = prefix + "gth_location_change";
+export const gth_get_location = prefix + "gth_get_location";
 
 //Header configuration for animated view
 export const maxHeaderHeight = 200;
@@ -72,7 +72,7 @@ export const height_35 = Math.round((35 / 100) * screenHeight);
 export const height_20 = Math.round((20 / 100) * screenHeight);
 export const height_30 = Math.round((30 / 100) * screenHeight);
 export const height_17 = Math.round((17 / 100) * screenHeight);
- 
+
 //Map 
 export const GOOGLE_KEY = "Enter_your_map_key_here";
 export const LATITUDE_DELTA = 0.0150;
@@ -111,8 +111,8 @@ export const accept_loader = require(".././assets/json/accept_loader.json");
 export const reject_loader = require(".././assets/json/reject_loader.json");
 export const loader = require(".././assets/json/loader.json");
 export const no_data_loader = require(".././assets/json/no_data_loader.json");
-export const location_enable = require(".././assets/json/location_enable.json"); 
-export const app_update = require(".././assets/json/app_update.json"); 
+export const location_enable = require(".././assets/json/location_enable.json");
+export const app_update = require(".././assets/json/app_update.json");
 
 //Font Family
 export const regular = "GoogleSans-Regular";
@@ -132,70 +132,70 @@ export const f_30 = 30;
 export const f_35 = 35;
 
 export const month_names = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 //More Menu
 export const menus = [
-    {
-      menu_name: 'KYC Verification',
-      icon: 'files-o',
-      route:'KycVerification'
-    },
-    {
-      menu_name: 'Training',
-      icon: 'user',
-      route:'Training'
-    },
-    {
-      menu_name: 'Frequently Asked Questions',
-      icon: 'question-circle-o',
-      route:'Faq'
-    },
-    {
-      menu_name: 'Earnings',
-      icon: 'dollar',
-      route:'Earnings'
-    },
-    {
-      menu_name: 'Withdrawals', 
-      icon: 'credit-card',
-      route:'Withdrawal'
-    },
-     {
-      menu_name: 'Wallet Transactions',
-      icon: 'money',
-      route:'Wallet'
-    },
-    {
-      menu_name: 'Notifications',
-      icon: 'bell',
-      route:'Notifications'
-    },
-    {
-      menu_name: 'About Us',
-      icon: 'building-o',
-      route:'AboutUs'
-    },
-    {
-      menu_name: 'Privacy Policies',
-      icon: 'info-circle',
-      route:'PrivacyPolicies'
-    },
-    {
-      menu_name: 'Logout',
-      icon: 'sign-out',
-      route:'Logout'
-    },
-  ]
+  {
+    menu_name: 'KYC Verification',
+    icon: 'files-o',
+    route: 'KycVerification'
+  },
+  {
+    menu_name: 'Training',
+    icon: 'user',
+    route: 'Training'
+  },
+  {
+    menu_name: 'Frequently Asked Questions',
+    icon: 'question-circle-o',
+    route: 'Faq'
+  },
+  {
+    menu_name: 'Earnings',
+    icon: 'dollar',
+    route: 'Earnings'
+  },
+  {
+    menu_name: 'Withdrawals',
+    icon: 'credit-card',
+    route: 'Withdrawal'
+  },
+  {
+    menu_name: 'Wallet Transactions',
+    icon: 'money',
+    route: 'Wallet'
+  },
+  {
+    menu_name: 'Notifications',
+    icon: 'bell',
+    route: 'Notifications'
+  },
+  {
+    menu_name: 'About Us',
+    icon: 'building-o',
+    route: 'AboutUs'
+  },
+  {
+    menu_name: 'Privacy Policies',
+    icon: 'info-circle',
+    route: 'PrivacyPolicies'
+  },
+  {
+    menu_name: 'Logout',
+    icon: 'sign-out',
+    route: 'Logout'
+  },
+]
