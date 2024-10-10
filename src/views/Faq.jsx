@@ -1,8 +1,8 @@
 //List
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, View, Text, Animated, TouchableOpacity, FlatList, StatusBar } from 'react-native';
-import { ScrollView } from '@gemcook/react-native-animated-scroll-view';
+import { StyleSheet, View, Text, Animated, TouchableOpacity, FlatList, StatusBar ,ScrollView, SafeAreaView} from 'react-native';
+//import { ScrollView } from '@gemcook/react-native-animated-scroll-view';
 import * as colors from '../assets/css/Colors';
 import Icon, { Icons } from '../components/Icons';
 import { normal, bold, api_url, faq, maxHeaderHeight, minHeaderHeight, f_30, f_s, f_xl } from '../config/Constants';
@@ -79,26 +79,35 @@ const Faq = (props) => {
     );
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar
                 backgroundColor={colors.theme_bg}
             />
-            <ScrollView
+                  <View style={[styles.header]}>
+        <TouchableOpacity activeOpacity={1} onPress={go_back.bind(this)} style={{ width: '15%', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon type={Icons.MaterialIcons} name="arrow-back" color={colors.theme_fg_three} style={{ fontSize: 30 }} />
+        </TouchableOpacity>
+        <View activeOpacity={1} style={{ width: '85%', alignItems: 'flex-start', justifyContent: 'center' }}>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.theme_fg_three, fontSize: f_xl, fontFamily: bold }}>FAQ</Text>
+        </View>
+      </View>
+            {/* <ScrollView
                 maxHeaderHeight={maxHeaderHeight}
                 minHeaderHeight={minHeaderHeight}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }])}
                 AnimationHeaderComponent={
                     animated_header()
                 }
-            >
+
+            > */}
                 <View style={{ margin: 5 }} />
                 <FlatList
                     data={data}
                     renderItem={show_list}
                     keyExtractor={item => item.id}
                 />
-            </ScrollView>
-            <Animated.View opacity={headerHeight} style={[styles.header]}>
+            {/* </ScrollView> */}
+            {/* <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <TouchableOpacity activeOpacity={1} onPress={go_back.bind(this)} style={{ width: '15%', alignItems: 'center', justifyContent: 'center' }}>
                     <Icon type={Icons.MaterialIcons} name="arrow-back" color={colors.theme_fg_three} style={{ fontSize: 30 }} />
                 </TouchableOpacity>
@@ -106,8 +115,8 @@ const Faq = (props) => {
                 <TouchableOpacity style={{ width: '83%', alignItems: 'flex-start', justifyContent: 'center' }}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.theme_fg_three, fontSize: f_xl, fontFamily: bold }}>FAQ's</Text>
                 </TouchableOpacity>
-            </Animated.View>
-        </View>
+            </Animated.View> */}
+        </SafeAreaView>
     );
 };
 
@@ -121,15 +130,9 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     header: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 16,
         height: 60,
-        backgroundColor: colors.theme_bg,
-        overflow: 'hidden',
         flexDirection: 'row',
+        backgroundColor: colors.btn_color,
         alignItems: 'center'
     },
     title: {
