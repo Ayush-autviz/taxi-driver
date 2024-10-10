@@ -408,7 +408,7 @@ const Dashboard = (props) => {
           backgroundColor: colors.theme_bg_three,
           flexDirection: "row",
           position: "absolute",
-          top: 50,
+          top: Platform.OS === 'ios' ? 50 : 20,
           width: "90%",
           marginLeft: "5%",
           borderRadius: 10,
