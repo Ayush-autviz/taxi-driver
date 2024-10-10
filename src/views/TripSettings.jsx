@@ -37,7 +37,7 @@ const TripSettings = (props) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [daily_status, setDailyStatus] = useState(false);
-  const [rental_status, setRentalStatus] = useState(true);
+  const [rental_status, setRentalStatus] = useState(false);
   const [outstation_status, setOutstationStatus] = useState(false);
   const [shared_status, setSharedStatus] = useState(false);
 
