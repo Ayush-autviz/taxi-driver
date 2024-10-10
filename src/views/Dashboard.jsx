@@ -408,10 +408,11 @@ const Dashboard = (props) => {
           backgroundColor: colors.theme_bg_three,
           flexDirection: "row",
           position: "absolute",
-          top: 20,
+          top: 50,
           width: "90%",
           marginLeft: "5%",
           borderRadius: 10,
+
         }}
       >
         {/* <View style={{ width: 50, right: 0, top: 450, position: "absolute" }}>
@@ -780,38 +781,9 @@ const Dashboard = (props) => {
             </Text>
           </TouchableOpacity>
         )}
-        {wallet == 0 && (
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={navigate_wallet.bind(this)}
-            style={{
-              flexDirection: "row",
-              backgroundColor: colors.error_background,
-              borderRadius: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              padding: 10,
-              width: "90%",
-              marginLeft: "5%",
-            }}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="wallet"
-              style={{ fontSize: 20, color: colors.error }}
-            />
-            <View style={{ margin: 5 }} />
-            <Text
-              style={{
-                fontFamily: regular,
-                fontSize: f_xs,
-                color: colors.error,
-              }}
-            >
-              Your wallet balance is low please recharge immediately
-            </Text>
-          </TouchableOpacity>
-        )}
+
+
+        
       </View>
       {loading == true && (
         <View

@@ -132,7 +132,10 @@ function TabNavigator() {
           bottom: 16,
           right: 16,
           left: 16,
-          borderRadius: 16
+          borderRadius: 16,
+        
+       
+  
         }
       }}
     >
@@ -231,6 +234,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+
+    height:60
   },
   btn: {
     flexDirection: 'row',
