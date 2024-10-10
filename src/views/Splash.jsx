@@ -6,51 +6,61 @@ import {
   TouchableOpacity,
   Platform,
   StatusBar,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from "react-native";
 import {
   logo,
   app_settings,
   api_url,
   LATITUDE_DELTA,
-  LONGITUDE_DELTA
+  LONGITUDE_DELTA,
 } from "../config/Constants";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import * as colors from "../assets/css/Colors";
-import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import { initialLat, initialLng, initialRegion } from '../actions/BookingActions';
-import { promptForEnableLocationIfNeeded } from 'react-native-android-location-enabler';
-import Geolocation from '@react-native-community/geolocation';
-import VersionNumber from 'react-native-version-number';
+import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import {
+  initialLat,
+  initialLng,
+  initialRegion,
+} from "../actions/BookingActions";
+import { promptForEnableLocationIfNeeded } from "react-native-android-location-enabler";
+import Geolocation from "@react-native-community/geolocation";
+import VersionNumber from "react-native-version-number";
 import { addEventListener } from "@react-native-community/netinfo";
-import DropdownAlert, { DropdownAlertData, DropdownAlertType, } from 'react-native-dropdownalert';
-import messaging from '@react-native-firebase/messaging';
-import notifee, { AndroidStyle, AndroidColor, AndroidCategory, AndroidImportance } from '@notifee/react-native';
-
+import DropdownAlert, {
+  DropdownAlertData,
+  DropdownAlertType,
+} from "react-native-dropdownalert";
+import messaging from "@react-native-firebase/messaging";
+import notifee, {
+  AndroidStyle,
+  AndroidColor,
+  AndroidCategory,
+  AndroidImportance,
+} from "@notifee/react-native";
 
 const Splash = (props) => {
   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
   const navigation = useNavigation();
   let dropDownAlertRef = useRef();
 
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
+    if (enabled) {
+      console.log("Authorization status:", authStatus);
+    }
   }
-}
 
   useEffect(() => {
     requestUserPermission();
     checkToken();
-    const unsubscribe = addEventListener(state => {
+    const unsubscribe = addEventListener((state) => {
       console.log("Connection type", state.type);
       console.log("Is connected?", state.isConnected);
       if (state.isConnected == true) {
@@ -58,8 +68,8 @@ async function requestUserPermission() {
       } else {
         dropDownAlertRef({
           type: DropdownAlertType.Error,
-          title: 'Internet connection error',
-          message: 'Please enable your internet connection',
+          title: "Internet connection error",
+          message: "Please enable your internet connection",
         });
       }
     });
@@ -67,42 +77,39 @@ async function requestUserPermission() {
   }, []);
 
   const checkToken = async () => {
-    console.log('check');
+    console.log("check");
     try {
       const fcmToken = await messaging().getToken();
-      console.log(fcmToken,"fcmtoken");
+      if (fcmToken) {
+        console.log("fcm_token:" + fcmToken);
+        global.fcm_token = fcmToken;
+        check_data();
+      } else {
+        Alert.alert("Sorry unable to get your token");
+      }
+      console.log(fcmToken, "fcmtoken");
     } catch (error) {
       console.log(error);
     }
-    
-
-    if (fcmToken) {
-      console.log('fcm_token:' + fcmToken);
-      global.fcm_token = fcmToken
-      check_data();
-    } else {
-      Alert.alert('Sorry unable to get your token');
-    }
-  }
+  };
 
   const check_data = () => {
     if (Platform.OS == "android") {
       call_settings();
       //global.fcm_token = '123456'
     } else {
-      global.fcm_token = '123456'
+      global.fcm_token = "123456";
       call_settings();
     }
-  }
-
+  };
 
   const call_settings = async () => {
-  //  console.log('ko')
+    //  console.log('ko')
     await axios({
-      method: 'get',
-      url: api_url + app_settings
+      method: "get",
+      url: api_url + app_settings,
     })
-      .then(async response => {
+      .then(async (response) => {
         /* if(response.data.result.android_latest_version.version_code > app_version_code){
           navigate_update_app('https://play.google.com/store/apps/details?id=com.letsgo.driver');
         }else{
@@ -110,11 +117,11 @@ async function requestUserPermission() {
         } */
         home(response.data.result);
       })
-      .catch(error => {
+      .catch((error) => {
         //console.log(error)
         //alert(strings.sorry_something_went_wrong);
       });
-  }
+  };
 
   const navigate_update_app = (url) => {
     navigation.dispatch(
@@ -123,16 +130,16 @@ async function requestUserPermission() {
         routes: [{ name: "AppUpdate", params: { url: url } }],
       })
     );
-  }
+  };
 
   const home = async (data) => {
-    const id = await AsyncStorage.getItem('id');
-    const first_name = await AsyncStorage.getItem('first_name');
-    const phone_with_code = await AsyncStorage.getItem('phone_with_code');
-    const email = await AsyncStorage.getItem('email');
-    const lang = await AsyncStorage.getItem('lang');
-    global.live_status = await AsyncStorage.getItem('online_status');
-    const profile_picture = await AsyncStorage.getItem('profile_picture');
+    const id = await AsyncStorage.getItem("id");
+    const first_name = await AsyncStorage.getItem("first_name");
+    const phone_with_code = await AsyncStorage.getItem("phone_with_code");
+    const email = await AsyncStorage.getItem("email");
+    const lang = await AsyncStorage.getItem("lang");
+    global.live_status = await AsyncStorage.getItem("online_status");
+    const profile_picture = await AsyncStorage.getItem("profile_picture");
     global.stripe_key = data.stripe_key;
     global.razorpay_key = data.razorpay_key;
     global.app_name = data.app_name;
@@ -144,7 +151,7 @@ async function requestUserPermission() {
     global.currency = data.default_currency_symbol;
 
     //Note
-    global.lang = 'en';
+    global.lang = "en";
     /*if(global.language_status == 1){
        global.lang = await global.default_language;
     }
@@ -177,57 +184,64 @@ async function requestUserPermission() {
       global.id = 0;
       check_location();
     }
-  }
+  };
 
   const check_location = async () => {
     //await getInitialLocation();
     if (Platform.OS === "android") {
       promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-        .then(async data => {
+        .then(async (data) => {
           try {
             const granted = await PermissionsAndroid.request(
-              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-              'title': 'App Access your location for tracking in background',
-              'message': app_name + ' will track your location in background when the app is closed or not in use.'
-            }
-            )
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: "App Access your location for tracking in background",
+                message:
+                  app_name +
+                  " will track your location in background when the app is closed or not in use.",
+              }
+            );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
               await getInitialLocation();
             } else {
-              navigation.navigate('LocationEnable');
-              alert('Sorry unable to fetch your location');
+              navigation.navigate("LocationEnable");
+              alert("Sorry unable to fetch your location");
             }
           } catch (err) {
-            console.log(err)
-            console.log(1)
-            navigation.navigate('LocationEnable');
+            console.log(err);
+            console.log(1);
+            navigation.navigate("LocationEnable");
           }
-        }).catch(err => {
-          console.log(err)
-          console.log(2)
-          navigation.navigate('LocationEnable');
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(2);
+          navigation.navigate("LocationEnable");
         });
     } else {
       await getInitialLocation();
     }
-  }
+  };
 
   const getInitialLocation = async () => {
-    Geolocation.getCurrentPosition(async (position) => {
-      let location = position.coords;
-      let region = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      }
-      await props.initialRegion(region);
-      await props.initialLat(location.latitude);
-      await props.initialLng(location.longitude);
-      navigate();
-    }, error => navigation.navigate('LocationEnable'),
-      { enableHighAccuracy: false, timeout: 10000 });
-  }
+    Geolocation.getCurrentPosition(
+      async (position) => {
+        let location = position.coords;
+        let region = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        };
+        await props.initialRegion(region);
+        await props.initialLat(location.latitude);
+        await props.initialLng(location.longitude);
+        navigate();
+      },
+      (error) => navigation.navigate("LocationEnable"),
+      { enableHighAccuracy: false, timeout: 10000 }
+    );
+  };
 
   const navigate = () => {
     if (global.id > 0) {
@@ -245,17 +259,15 @@ async function requestUserPermission() {
         })
       );
     }
-  }
+  };
 
   return (
     <TouchableOpacity activeOpacity={1} style={styles.background}>
-      <StatusBar
-        backgroundColor={colors.theme_bg}
-      />
+      <StatusBar backgroundColor={colors.theme_bg} />
       <View style={styles.logo_container}>
         <Image style={styles.logo} source={logo} />
       </View>
-      <DropdownAlert alert={func => (dropDownAlertRef = func)} />
+      <DropdownAlert alert={(func) => (dropDownAlertRef = func)} />
     </TouchableOpacity>
   );
 };
@@ -276,8 +288,8 @@ const styles = StyleSheet.create({
     height: undefined,
     width: undefined,
     flex: 1,
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
 });
 
 function mapStateToProps(state) {
@@ -291,7 +303,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => ({
   initialLat: (data) => dispatch(initialLat(data)),
   initialLng: (data) => dispatch(initialLng(data)),
-  initialRegion: (data) => dispatch(initialRegion(data))
+  initialRegion: (data) => dispatch(initialRegion(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Splash);
