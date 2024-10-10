@@ -7,14 +7,31 @@ import {
   StatusBar,
   TouchableOpacity,
   isEnabled,
-  Switch
+  Switch,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import * as colors from '../assets/css/Colors';
-import Icon, { Icons } from '../components/Icons';
-import { f_25, bold, img_url, api_url, change_driver_settings, get_driver_settings, loader, payment_methods, app_name, wallet, f_xs, f_s, f_m, f_xl, f_30, regular } from '../config/Constants';
-import axios from 'axios';
-import LottieView from 'lottie-react-native';
+import * as colors from "../assets/css/Colors";
+import Icon, { Icons } from "../components/Icons";
+import {
+  f_25,
+  bold,
+  img_url,
+  api_url,
+  change_driver_settings,
+  get_driver_settings,
+  loader,
+  payment_methods,
+  app_name,
+  wallet,
+  f_xs,
+  f_s,
+  f_m,
+  f_xl,
+  f_30,
+  regular,
+} from "../config/Constants";
+import axios from "axios";
+import LottieView from "lottie-react-native";
 
 const TripSettings = (props) => {
   const navigation = useNavigation();
@@ -29,267 +46,396 @@ const TripSettings = (props) => {
       call_get_driver_settings();
     });
 
-    return (
-      unsubscribe
-    );
+    return unsubscribe;
   }, []);
 
   const go_back = () => {
     navigation.goBack();
-  }
+  };
 
   call_get_driver_settings = async () => {
     setLoading(true);
     //console.log({ driver_id: global.id })
     await axios({
-      method: 'post',
+      method: "post",
       url: api_url + get_driver_settings,
-      data: { driver_id: global.id }
+      data: { driver_id: global.id },
     })
-      .then(async response => {
+      .then(async (response) => {
         setLoading(false);
-         console.log(response.data)
+        console.log(response.data);
         if (response.data.data.daily_ride_status == 1) {
           setDailyStatus(true);
-        } if (response.data.data.daily_ride_status == 0) {
+        }
+        if (response.data.data.daily_ride_status == 0) {
           setDailyStatus(false);
-        } if (response.data.data.rental_ride_status == 1) {
+        }
+        if (response.data.data.rental_ride_status == 1) {
           setRentalStatus(true);
-        } /* if (response.data.data.rental_ride_status == 0) {
+        }
+        /* if (response.data.data.rental_ride_status == 0) {
           setRentalStatus(false);
         } */ if (response.data.data.outstation_ride_status == 1) {
           setOutstationStatus(true);
-        } if (response.data.data.outstation_ride_status == 0) {
+        }
+        if (response.data.data.outstation_ride_status == 0) {
           setOutstationStatus(false);
-        } if (response.data.data.shared_ride_status == 1) {
+        }
+        if (response.data.data.shared_ride_status == 1) {
           setSharedStatus(true);
-        } if (response.data.data.shared_ride_status == 0) {
+        }
+        if (response.data.data.shared_ride_status == 0) {
           setSharedStatus(false);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert('Sorry something went wrong');
+        alert("Sorry something went wrong");
       });
-  }
+  };
   daily_toggleSwitch = (value) => {
     if (value) {
-      setDailyStatus(value)
+      setDailyStatus(value);
       call_daily_change_driver_settings(1);
     } else {
-      setDailyStatus(value)
+      setDailyStatus(value);
       call_daily_change_driver_settings(0);
     }
-  }
+  };
   rental_toggleSwitch = (value) => {
     if (value) {
-      setRentalStatus(value)
+      setRentalStatus(value);
       call_rental_change_driver_settings(1);
     } else {
-      setRentalStatus(value)
+      setRentalStatus(value);
       call_rental_change_driver_settings(0);
     }
-  }
+  };
   outstation_toggleSwitch = (value) => {
     if (value) {
-      setOutstationStatus(value)
+      setOutstationStatus(value);
       call_outstation_change_driver_settings(1);
     } else {
-      setOutstationStatus(value)
+      setOutstationStatus(value);
       call_outstation_change_driver_settings(0);
     }
-  }
+  };
   shared_toggleSwitch = (value) => {
     if (value) {
-      setSharedStatus(value)
+      setSharedStatus(value);
       call_shared_change_driver_settings(1);
     } else {
-      setSharedStatus(value)
+      setSharedStatus(value);
       call_shared_change_driver_settings(0);
     }
-  }
+  };
 
   const call_daily_change_driver_settings = (status) => {
     setLoading(true);
-   // console.log({ id: global.id, shared_ride_status: shared_status, daily_ride_status: status, rental_ride_status: rental_status, outstation_ride_status: outstation_status })
+    // console.log({ id: global.id, shared_ride_status: shared_status, daily_ride_status: status, rental_ride_status: rental_status, outstation_ride_status: outstation_status })
     axios({
-      method: 'post',
+      method: "post",
       url: api_url + change_driver_settings,
-      data: { id: global.id, shared_ride_status: shared_status, daily_ride_status: status, rental_ride_status: rental_status, outstation_ride_status: outstation_status }
+      data: {
+        id: global.id,
+        shared_ride_status: shared_status,
+        daily_ride_status: status,
+        rental_ride_status: rental_status,
+        outstation_ride_status: outstation_status,
+      },
     })
-      .then(async response => {
+      .then(async (response) => {
         setLoading(false);
         if (response.data.data == 0) {
-          setDailyStatus(false)
+          // setDailyStatus(false)
           call_get_driver_settings();
         } else if (response.data.data == 1) {
-          setDailyStatus(true)
+          // setDailyStatus(true)
           call_get_driver_settings();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert('Sorry something went wrong')
+        alert("Sorry something went wrong");
       });
-  }
+  };
 
   const call_rental_change_driver_settings = (status) => {
     setLoading(true);
     //console.log({ id: global.id, shared_ride_status: shared_status, daily_ride_status: 0, rental_ride_status: status, outstation_ride_status: outstation_status })
     axios({
-      method: 'post',
+      method: "post",
       url: api_url + change_driver_settings,
-      data: { id: global.id, shared_ride_status: shared_status, daily_ride_status: daily_status, rental_ride_status: status, outstation_ride_status: outstation_status }
+      data: {
+        id: global.id,
+        shared_ride_status: shared_status,
+        daily_ride_status: daily_status,
+        rental_ride_status: status,
+        outstation_ride_status: outstation_status,
+      },
     })
-      .then(async response => {
+      .then(async (response) => {
         setLoading(false);
         if (response.data.data == 0) {
-          setRentalStatus(false)
+          // setRentalStatus(false);
           call_get_driver_settings();
         } else if (response.data.data == 1) {
-          setRentalStatus(true)
+          // setRentalStatus(true);
           call_get_driver_settings();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert('Sorry something went wrong')
+        alert("Sorry something went wrong");
       });
-  }
+  };
 
   const call_outstation_change_driver_settings = (status) => {
     setLoading(true);
     //console.log({ id: global.id, shared_ride_status: shared_status, daily_ride_status: 0, rental_ride_status: rental_status, outstation_ride_status: 0 })
     axios({
-      method: 'post',
+      method: "post",
       url: api_url + change_driver_settings,
-      data: { id: global.id, shared_ride_status: shared_status, daily_ride_status: daily_status, rental_ride_status: rental_status, outstation_ride_status: status }
+      data: {
+        id: global.id,
+        shared_ride_status: shared_status,
+        daily_ride_status: daily_status,
+        rental_ride_status: rental_status,
+        outstation_ride_status: status,
+      },
     })
-      .then(async response => {
+      .then(async (response) => {
         setLoading(false);
         if (response.data.data == 0) {
-          setOutstationStatus(false)
+          // setOutstationStatus(false);
           call_get_driver_settings();
         } else if (response.data.data == 1) {
-          setOutstationStatus(true)
+          // setOutstationStatus(true);
           call_get_driver_settings();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert('Sorry something went wrong')
+        alert("Sorry something went wrong");
       });
-  }
+  };
 
   const call_shared_change_driver_settings = (status) => {
     setLoading(true);
     //console.log({ id: global.id, shared_ride_status: status, daily_ride_status: 0, rental_ride_status: rental_status, outstation_ride_status: outstation_status })
     axios({
-      method: 'post',
+      method: "post",
       url: api_url + change_driver_settings,
-      data: { id: global.id, shared_ride_status: status, daily_ride_status: daily_status, rental_ride_status: rental_status, outstation_ride_status: outstation_status }
+      data: {
+        id: global.id,
+        shared_ride_status: status,
+        daily_ride_status: daily_status,
+        rental_ride_status: rental_status,
+        outstation_ride_status: outstation_status,
+      },
     })
-      .then(async response => {
+      .then(async (response) => {
         setLoading(false);
         if (response.data.data == 0) {
-          setSharedStatus(false)
+          // setSharedStatus(false);
           call_get_driver_settings();
         } else if (response.data.data == 1) {
-          setSharedStatus(true)
+          // setSharedStatus(true);
           call_get_driver_settings();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
-        alert('Sorry something went wrong')
+        alert("Sorry something went wrong");
       });
-  }
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: colors.lite_bg, flex: 1 }}>
-      <StatusBar
-        backgroundColor={colors.theme_bg}
-      />
+      <StatusBar backgroundColor={colors.theme_bg} />
       <View style={[styles.header]}>
-        <TouchableOpacity activeOpacity={1} onPress={go_back.bind(this)} style={{ width: '15%', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon type={Icons.MaterialIcons} name="arrow-back" color={colors.theme_fg_three} style={{ fontSize: 30 }} />
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={go_back.bind(this)}
+          style={{
+            width: "15%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon
+            type={Icons.MaterialIcons}
+            name="arrow-back"
+            color={colors.theme_fg_three}
+            style={{ fontSize: 30 }}
+          />
         </TouchableOpacity>
-        <View activeOpacity={1} style={{ width: '85%', alignItems: 'flex-start', justifyContent: 'center' }}>
-          <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.theme_fg_three, fontSize: f_xl, fontFamily: bold }}>Trip Settings</Text>
+        <View
+          activeOpacity={1}
+          style={{
+            width: "85%",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{
+              color: colors.theme_fg_three,
+              fontSize: f_xl,
+              fontFamily: bold,
+            }}
+          >
+            Trip Settings
+          </Text>
         </View>
       </View>
-      <View style={{ backgroundColor: colors.theme_bg_three, padding: 10, margin: 10, borderRadius: 10, borderWidth: 1, borderColor: colors.theme_bg }}>
-        <View style={{ flexDirection: 'row', width: '100%', padding: 10 }}>
-          <View style={{ width: '70%' }}>
-            <Text style={{ fontFamily: bold, fontSize: 18, color: colors.theme_fg_two }}>Enable Daily ride status</Text>
+      <View
+        style={{
+          backgroundColor: colors.theme_bg_three,
+          padding: 10,
+          margin: 10,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: colors.theme_bg,
+        }}
+      >
+        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
+          <View style={{ width: "70%" }}>
+            <Text
+              style={{
+                fontFamily: bold,
+                fontSize: 18,
+                color: colors.theme_fg_two,
+              }}
+            >
+              Enable Daily ride status
+            </Text>
           </View>
-          <View style={{ width: '30%' }}>
+          <View style={{ width: "30%" }}>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={daily_toggleSwitch}
               value={daily_status}
+              disabled={loading ? true : false}
             />
           </View>
         </View>
       </View>
-      
+
       <View style={{ margin: 10 }} />
-      <View style={{ backgroundColor: colors.theme_bg_three, padding: 10, margin: 10, borderRadius: 10, borderWidth: 1, borderColor: colors.theme_bg }}>
-        <View style={{ flexDirection: 'row', width: '100%', padding: 10 }}>
-          <View style={{ width: '70%' }}>
-            <Text style={{ fontFamily: bold, fontSize: 18, color: colors.theme_fg_two }}>Enable Outstation ride status</Text>
+      <View
+        style={{
+          backgroundColor: colors.theme_bg_three,
+          padding: 10,
+          margin: 10,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: colors.theme_bg,
+        }}
+      >
+        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
+          <View style={{ width: "70%" }}>
+            <Text
+              style={{
+                fontFamily: bold,
+                fontSize: 18,
+                color: colors.theme_fg_two,
+              }}
+            >
+              Enable Outstation ride status
+            </Text>
           </View>
-          <View style={{ width: '30%' }}>
+          <View style={{ width: "30%" }}>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
-              thumbColor={isEnabled ? "#f5dd4b" :"#fefeff"}
+              thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={outstation_toggleSwitch}
               value={outstation_status}
+              disabled={loading ? true : false}
             />
           </View>
         </View>
       </View>
       <View style={{ margin: 10 }} />
-      <View style={{ backgroundColor: colors.theme_bg_three, padding: 10, margin: 10, borderRadius: 10, borderWidth: 1, borderColor: colors.theme_bg }}>
-        <View style={{ flexDirection: 'row', width: '100%', padding: 10 }}>
-          <View style={{ width: '70%' }}>
-            <Text style={{ fontFamily: bold, fontSize: 18, color: colors.theme_fg_two }}>Enable Shared ride status</Text>
+      <View
+        style={{
+          backgroundColor: colors.theme_bg_three,
+          padding: 10,
+          margin: 10,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: colors.theme_bg,
+        }}
+      >
+        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
+          <View style={{ width: "70%" }}>
+            <Text
+              style={{
+                fontFamily: bold,
+                fontSize: 18,
+                color: colors.theme_fg_two,
+              }}
+            >
+              Enable Shared ride status
+            </Text>
           </View>
-          <View style={{ width: '30%' }}>
+          <View style={{ width: "30%" }}>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={shared_toggleSwitch}
               value={shared_status}
+              disabled={loading ? true : false}
             />
           </View>
         </View>
       </View>
       <View style={{ margin: 10 }} />
-      <View style={{ backgroundColor: colors.theme_bg_three, padding: 10, margin: 10, borderRadius: 10, borderWidth: 1, borderColor: colors.theme_bg }}>
-        <View style={{ flexDirection: 'row', width: '100%', padding: 10 }}>
-          <View style={{ width: '70%' }}>
-            <Text style={{ fontFamily: bold, fontSize: 18, color: colors.theme_fg_two }}>Enable Rental ride status</Text>
+      <View
+        style={{
+          backgroundColor: colors.theme_bg_three,
+          padding: 10,
+          margin: 10,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: colors.theme_bg,
+        }}
+      >
+        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
+          <View style={{ width: "70%" }}>
+            <Text
+              style={{
+                fontFamily: bold,
+                fontSize: 18,
+                color: colors.theme_fg_two,
+              }}
+            >
+              Enable Rental ride status
+            </Text>
           </View>
-          <View style={{ width: '30%' }}>
+          <View style={{ width: "30%" }}>
             <Switch
-              trackColor={{ false: "#C0C0C0", true: colors.default_online_status_green }}
-              thumbColor={isEnabled ? "#f5dd4b" : colors.default_online_status_grey}
+              trackColor={{ false: "#C0C0C0", true: colors.status_online }}
+              thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
               ios_backgroundColor="#3e3e3e"
+              onValueChange={rental_toggleSwitch}
               value={rental_status}
+              disabled={loading ? true : false}
             />
           </View>
         </View>
       </View>
-      {loading == true &&
-          <View style={{ height: 50, width: '90%', alignSelf: 'center' }}>
-            <LottieView style={{flex: 1}} source={loader} autoPlay loop />
-          </View>
-        }
+      {loading == true && (
+        <View style={{ height: 50, width: "90%", alignSelf: "center" }}>
+          <LottieView style={{ flex: 1 }} source={loader} autoPlay loop />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -298,8 +444,8 @@ const styles = StyleSheet.create({
   header: {
     height: 60,
     backgroundColor: colors.theme_bg,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

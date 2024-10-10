@@ -20,9 +20,7 @@ import { updateVehicleColor } from '../actions/VehicleDetailActions';
 const CreateVehicleColor = (props) => {
     const navigation = useNavigation();
     const [vehicle_color, setVehicleColor] = useState('');
-    let dropDownAlertRef = useRef(
-    (_data?: DropdownAlertData) => new Promise<DropdownAlertData>(res => res),
-);
+    let dropDownAlertRef = useRef();
     const inputRef = useRef();
 
     const go_back = () => {

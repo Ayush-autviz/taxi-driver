@@ -25,9 +25,7 @@ const OTP = (props) => {
     const [from, setFrom] = useState(route.params.from);
     const [id, setId] = useState(route.params.id);
     const [value, setValue] = useState("");
-    let dropDownAlertRef = useRef(
-    (_data?: DropdownAlertData) => new Promise<DropdownAlertData>(res => res),
-);
+    let dropDownAlertRef = useRef();
     const inputRef = useRef();
 
     const go_back = () => {
