@@ -1,11 +1,12 @@
 import { Dimensions } from "react-native";
 
 export const app_name = "Taxi2Door Driver";
-export const base_url = "https://2478-110-227-188-60.ngrok-free.app/";
-export const api_url = "https://2478-110-227-188-60.ngrok-free.app/api/";
-export const img_url = "https://2478-110-227-188-60.ngrok-free.app/uploads/";
+export const base_url = "https://auttaxi.autviz.com/";
+export const api_url = "https://auttaxi.autviz.com/api/";
+export const img_url = "https://auttaxi.autviz.com/uploads/";
 export const prefix = "driver/";
-export const failed_url = "paypal_failed";
+export const failed_url = "paypal_failed"; 
+
 export const success_url = "paypal_success";
 
 export const app_settings = prefix + "app_settings";
@@ -74,7 +75,7 @@ export const height_30 = Math.round((30 / 100) * screenHeight);
 export const height_17 = Math.round((17 / 100) * screenHeight);
 
 //Map 
-export const GOOGLE_KEY = "Enter_your_map_key_here";
+export const GOOGLE_KEY = "AIzaSyBcKgyA7urR7gHyen79h40UlkvTJJoKc9I";
 export const LATITUDE_DELTA = 0.0150;
 export const LONGITUDE_DELTA = 0.0152;
 export const DEFAULT_PADDING = { top: 40, right: 40, bottom: 40, left: 40 };

@@ -29,6 +29,7 @@ import {
   f_xl,
   f_30,
   regular,
+  f_l,
 } from "../config/Constants";
 import axios from "axios";
 import LottieView from "lottie-react-native";
@@ -301,19 +302,19 @@ const TripSettings = (props) => {
           borderColor: colors.theme_bg,
         }}
       >
-        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
-          <View style={{ width: "70%" }}>
+        <View style={{ flexDirection: "row", width: "100%", justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+          <View>
             <Text
               style={{
                 fontFamily: bold,
-                fontSize: 18,
+                fontSize: f_m,
                 color: colors.theme_fg_two,
               }}
             >
               Enable Daily ride status
             </Text>
           </View>
-          <View style={{ width: "30%" }}>
+          <View>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
@@ -337,19 +338,19 @@ const TripSettings = (props) => {
           borderColor: colors.theme_bg,
         }}
       >
-        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
-          <View style={{ width: "70%" }}>
+        <View style={{ flexDirection: "row", width: "100%", justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+          <View>
             <Text
               style={{
                 fontFamily: bold,
-                fontSize: 18,
+                fontSize: f_m,
                 color: colors.theme_fg_two,
               }}
             >
               Enable Outstation ride status
             </Text>
           </View>
-          <View style={{ width: "30%" }}>
+          <View>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
@@ -372,19 +373,19 @@ const TripSettings = (props) => {
           borderColor: colors.theme_bg,
         }}
       >
-        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
-          <View style={{ width: "70%" }}>
+        <View style={{ flexDirection: "row", width: "100%", justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+          <View>
             <Text
               style={{
                 fontFamily: bold,
-                fontSize: 18,
+                fontSize: f_m,
                 color: colors.theme_fg_two,
               }}
             >
               Enable Shared ride status
             </Text>
           </View>
-          <View style={{ width: "30%" }}>
+          <View>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}
@@ -407,19 +408,19 @@ const TripSettings = (props) => {
           borderColor: colors.theme_bg,
         }}
       >
-        <View style={{ flexDirection: "row", width: "100%", padding: 10 }}>
-          <View style={{ width: "70%" }}>
+        <View style={{ flexDirection: "row", width: "100%", justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+          <View>
             <Text
               style={{
                 fontFamily: bold,
-                fontSize: 18,
+                fontSize: f_m,
                 color: colors.theme_fg_two,
               }}
             >
               Enable Rental ride status
             </Text>
           </View>
-          <View style={{ width: "30%" }}>
+          <View>
             <Switch
               trackColor={{ false: "#C0C0C0", true: colors.status_online }}
               thumbColor={isEnabled ? "#f5dd4b" : "#fefeff"}

@@ -7,9 +7,10 @@ import {
   ScrollView,
   StatusBar,
   FlatList,
-  Linking,
+  Linking, 
   Platform,
   Image,
+  Alert,
 } from "react-native";
 import {
   useNavigation,
@@ -80,7 +81,11 @@ const Trip = (props) => {
     longitudeDelta: LONGITUDE_DELTA,
   });
 
+
+  console.log(data?.trip?.status,'trip status');
+
   const go_back = () => {
+    console.log("going back")
     if (from == "home") {
       navigation.navigate("Dashboard");
     } else {
@@ -89,7 +94,7 @@ const Trip = (props) => {
   };
 
   useEffect(() => {
-    call_trip_details();
+   call_trip_details();
     const onValueChange = database()
       .ref(`/trips/${trip_id}`)
       .on("value", (snapshot) => {
@@ -99,7 +104,8 @@ const Trip = (props) => {
       });
     return onValueChange;
   }, []);
-
+  
+  
   const getRegion = (pickup, drop) => {
     const latitudes = [pickup.latitude, drop.latitude];
     const longitudes = [pickup.longitude, drop.longitude];
@@ -129,15 +135,27 @@ const Trip = (props) => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data.result.trip.status == 5 && from == "home") {
+        console.log(response.data.result.trip.status,'trip s')
+        if (response.data.result.trip.status == 5
+           && from == "home"
+          ) {
           navigation.navigate("Bill", { trip_id: trip_id, from: from });
         } else if (
           cancellation_statuses.includes(
             parseInt(response.data.result.trip.status)
-          ) &&
+          )
+           &&
           from == "home"
         ) {
-          navigate_home();
+          dropDownAlertRef({
+            type: DropdownAlertType.Info,
+            title: 'Cancelled',
+            message: 'Your trip has been cancelled!',
+          });
+          setTimeout(() => {
+            console.log("hello");
+            navigate_home();
+          }, 3000);
         }
         setData(response.data.result);
         setRegion(() =>
@@ -156,6 +174,7 @@ const Trip = (props) => {
         setOnLoad(1);
       })
       .catch((error) => {
+        console.log('triperr',error)
         setLoading(false);
       });
   };
@@ -172,6 +191,7 @@ const Trip = (props) => {
     fetch(
       "https://maps.googleapis.com/maps/api/geocode/json?address=" +
         props.change_location.latitude +
+
         "," +
         props.change_location.longitude +
         "&key=" +
@@ -215,6 +235,7 @@ const Trip = (props) => {
         call_trip_details();
       })
       .catch((error) => {
+        console.log('triperr2',error)
         setLoading(false);
       });
   };
@@ -253,6 +274,7 @@ const Trip = (props) => {
   };
 
   const navigate_home = () => {
+    console.log('navigating to home')
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -317,7 +339,9 @@ const Trip = (props) => {
     }
   };
 
-  const call_chat = (data) => {
+
+  const call_chat = () => {
+    
     navigation.navigate("Chat", { data: data, trip_id: trip_id });
   };
 
@@ -372,6 +396,7 @@ const Trip = (props) => {
     const controlPoint = calculateControlPoint(p1, p2);
     return quadraticBezierCurve(p1, p2, controlPoint, 100); // Generate 100 points along the curve
   };
+
 
   return (
     <View style={styles.container}>
@@ -473,8 +498,8 @@ const Trip = (props) => {
         </View>
       )}
       <BottomSheet
-        sliderMinHeight={screenHeight / 2}
-        sliderMaxHeight={screenHeight / 2}
+        // sliderMinHeight={screenHeight / 2}
+        // sliderMaxHeight={screenHeight / 2}
         isOpen
       >
         {(onScrollEndDrag) => (
@@ -972,7 +997,7 @@ const Trip = (props) => {
                                   fontFamily: bold,
                                 }}
                               >
-                                {data.trip.new_status.status_name}
+                              {data.trip.new_status.status_name}
                               </Text>
                             </TouchableOpacity>
                           ) : (
@@ -1106,7 +1131,7 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    height: screenHeight / 1.7,
+    // height: screenHeight / 1.7,
   },
 });
 

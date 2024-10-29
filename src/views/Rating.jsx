@@ -22,7 +22,7 @@ const Rating = (props) => {
   const navigation = useNavigation();
   const route = useRoute();
   const [data, setData] = useState(route.params.data);
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(0);
   const [star_count, setStarCount] = useState(5);
   const [comments, setComments] = useState("");
   const [loading, setLoading] = useState(false);

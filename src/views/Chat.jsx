@@ -89,7 +89,7 @@ const Chat = (props) => {
                     <Icon type={Icons.MaterialIcons} name="arrow-back" color={colors.theme_fg_three} style={{ fontSize: 30 }} />
                 </TouchableOpacity>
                 <View activeOpacity={1} style={{ width: '85%', alignItems: 'flex-start', justifyContent: 'center' }}>
-                    <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.theme_fg_three, fontSize: f_xl, fontFamily: bold }}>Chat with Customer</Text>
+                    <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.theme_fg_three, fontSize: f_xl, fontFamily: bold }}>{`Chat with ${route.params.data?.trip?.customer?.first_name}`}</Text>
                 </View>
             </View>
             <GiftedChat

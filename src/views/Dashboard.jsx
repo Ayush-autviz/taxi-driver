@@ -140,6 +140,9 @@ const Dashboard = (props) => {
     } catch (e) {}
   };
 
+  console.log('dashid', global.id);
+  
+
   const call_dashboard = async () => {
     console.log("Dashboard Call : ");
     setLoading(true);
@@ -168,18 +171,18 @@ const Dashboard = (props) => {
           response.data.result.trip_type
         );
         setGtnStatus(response.data.result.gth_status);
-        check_request(response.data.result.request_booking_id);
+        check_request(response.data.result.request_booking_id,response.data.result.vehicle_type);
         console.log("Request : " + response.data.result.request_booking_id);
       })
       .catch((error) => {
-        console.log(error);
+        console.log('dasherr',error);
         setLoading(false);
       });
   };
 
-  const check_request = (booking_id) => {
+  const check_request = (booking_id,vt) => {
     if (booking_id != 0) {
-      navigation.navigate("BookingRequest", { trip_id: booking_id });
+      navigation.navigate("BookingRequest", { trip_id: booking_id, vehicle_type: vt  });
     }
   };
   const check_booking = (booking_id, trip_type) => {

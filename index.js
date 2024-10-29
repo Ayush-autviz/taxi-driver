@@ -82,7 +82,7 @@ const showNotification = async (id, title, body) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.log('indexerr',error);
   }
 }
 
@@ -99,7 +99,7 @@ const onMessageReceived = async (message) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.log('indexerr',error);
   }
   // try{
   //   showNotification(message.messageId, 'Booking Alert!', 'Hi You received new booking');
@@ -125,7 +125,7 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('timer_executed');
       const timeoutId = BackgroundTimer.setTimeout(() => {
         console.log('Execute reject driver');
-        callReject(id, driver_id);
+        // callReject(id, driver_id);
         notifee.cancelNotification(id);
       }, 10000);
     } else if (type == 2 && id) {
@@ -139,10 +139,10 @@ const callReject = async (id, driver_id) => {
   console.log(api_url + reject);
   try {
     const response = await axios.post(api_url + reject, { trip_id: id, driver_id: driver_id, from: 1 });
-    console.log(response.data);
+    console.log('indexdata',response.data);
     BackgroundTimer.stop();
   } catch (error) {
-    console.log(error);
+    console.log('indexerr',error);
   }
 }
 
@@ -156,7 +156,7 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
     setTimeout(async () => {
       console.log('settimeout called');
       console.log('notification id : ' + notification.id);
-      callReject(notification.id)
+      callReject(notification.id,global.id)
       notifee.cancelNotification(notification.id)
     }, 30 * 1000);
   }

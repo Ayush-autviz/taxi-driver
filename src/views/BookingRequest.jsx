@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
-import { bold, regular, api_url, trip_request_details, img_url, accept, reject, loader, f_l, f_xl, f_s, f_xs } from '../config/Constants';
+import { bold, regular, api_url, trip_request_details, img_url, accept, reject, loader, f_l,f_m, f_xl, f_s, f_xs } from '../config/Constants';
 import * as colors from '../assets/css/Colors';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { connect } from 'react-redux';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from 'axios';
 import LottieView from 'lottie-react-native';
+import database from "@react-native-firebase/database";
+import DropdownAlert, {
+  DropdownAlertData,
+  DropdownAlertType,
+} from "react-native-dropdownalert";
 
 var Sound = require('react-native-sound');
 
@@ -29,15 +34,45 @@ const BookingRequest = (props) => {
   const [trip_id, setTripId] = useState(route.params.trip_id);
   const [data, setData] = useState('');
 
+  let dropDownAlertRef = useRef(
+    (_data?: DropdownAlertData) => new Promise<DropdownAlertData>(res => res),
+);
+
+  const vehicle_type = route.params.vehicle_type;
+
   useEffect(() => {
     call_trip_request_details();
+    const onValueChange = database()
+      .ref(`/drivers/${vehicle_type}/${global.id}`)
+      .on("value", (snapshot) => {
+        if (snapshot.val()?.booking?.booking_id === 0) {
+          whoosh.stop();
+          dropDownAlertRef({
+            type: DropdownAlertType.Info,
+            title: 'Cancelled',
+            message: 'Your trip has been cancelled!',
+          });
+          setTimeout(() => {
+            navigate();
+          }, 3000);
+        }
+      });
+  
     whoosh.play();
     whoosh.setNumberOfLoops(-1);
+  
     const _unblur = navigation.addListener('blur', async () => {
       whoosh.stop();
     });
-    return _unblur;
+  
+    // Cleanup function to remove the listener
+    return () => {
+      database().ref(`/drivers/${vehicle_type}/${global.id}`).off("value", onValueChange);
+      _unblur();
+      whoosh.stop();
+    };
   }, []);
+  
 
   const call_trip_request_details = async () => {
     await axios({
@@ -54,6 +89,8 @@ const BookingRequest = (props) => {
   }
 
   const call_accept = async () => {
+    console.log('gID',global.id, trip_id);
+    
     setLoading(true);
     await axios({
       method: 'post',
@@ -66,6 +103,8 @@ const BookingRequest = (props) => {
         navigate();
       })
       .catch(error => {
+        console.log('booking error', error);
+        
         setLoading(false);
       });
   }
@@ -92,10 +131,11 @@ const BookingRequest = (props) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={call_accept.bind(this)}>
+    // <TouchableOpacity activeOpacity={1} onPress={call_accept.bind(this)}>
+    <View>
       <StatusBar
         backgroundColor={colors.theme_bg}
-      />
+        />
       {loading == false ?
         <View>
           <View style={styles.header} >
@@ -104,7 +144,7 @@ const BookingRequest = (props) => {
           <View style={styles.container}>
             <Text style={{ fontSize: f_xl, color: colors.theme_fg, fontFamily: bold }}>Pickup Location</Text>
             <View style={{ margin: 5 }} />
-            <Text style={{ fontSize: f_s, color: colors.theme_fg_two, fontFamily: regular }}>{data.pickup_address}</Text>
+            <Text style={{ fontSize: f_s, color: colors.theme_fg_two, fontFamily: regular }}>{data?.pickup_address}</Text>
             <View style={{ margin: 10 }} />
             <CountdownCircleTimer
               isPlaying={1}
@@ -113,14 +153,63 @@ const BookingRequest = (props) => {
               onComplete={() => {
                 call_reject();
               }}
-            >
+              >
               {() => <Image source={{ uri: img_url + data.static_map }} style={{ height: 160, width: 160, borderRadius: 80 }} />}
             </CountdownCircleTimer>
-
+            <View style={{flexDirection:"row",gap:10,marginHorizontal:24,marginTop:20}}>
+            <TouchableOpacity
+                            onPress={call_accept}
+                            activeOpacity={1}
+                            style={{
+                              width: "55%",
+                              backgroundColor: colors.btn_color,
+                              borderRadius: 10,
+                              height: 50,
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                color: "#fff",
+                                fontSize: f_m,
+                               // color: colors.error,
+                                fontFamily: bold,
+                              }}
+                            >
+                              Accept
+                            </Text>
+                          </TouchableOpacity>
+            <TouchableOpacity
+                            onPress={call_reject}
+                            activeOpacity={1}
+                            style={{
+                              width: "55%",
+                              backgroundColor: colors.btn_color,
+                              borderRadius: 10,
+                              height: 50,
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                color: "#fff",
+                                fontSize: f_m,
+                               // color: colors.error,
+                                fontFamily: bold,
+                              }}
+                            >
+                              Cancel
+                            </Text>
+                          </TouchableOpacity>
+                          </View>
             <View style={{ margin: 10 }} />
             <Text style={{ fontSize: f_xl, color: colors.theme_fg, fontFamily: bold }}>Drop Location</Text>
             <View style={{ margin: 5 }} />
-            <Text style={{ fontSize: f_s, color: colors.theme_fg_two, fontFamily: regular }}>{data.drop_address}</Text>
+            <Text style={{ fontSize: f_s, color: colors.theme_fg_two, fontFamily: regular }}>{data?.drop_address}</Text>
             <View style={{ margin: 10 }} />
             <View style={{ borderColor: colors.theme_fg_two, borderWidth: 0.5, width: '80%' }} />
             <View style={{ margin: 10 }} />
@@ -129,7 +218,7 @@ const BookingRequest = (props) => {
             <Text style={{ fontSize: f_xs, color: colors.theme_fg_two, fontFamily: bold }} >Estimated Fare</Text>
           </View>
           <View style={styles.footer} >
-            <Text style={{ color: colors.theme_fg_three, fontFamily: bold, fontSize: f_xl }}>{data.first_name}</Text>
+            <Text style={{ color: colors.theme_fg_three, fontFamily: bold, fontSize: f_xl }}>{data?.first_name}</Text>
           </View>
         </View>
         :
@@ -137,7 +226,9 @@ const BookingRequest = (props) => {
           <LottieView style={{flex: 1}} source={loader} autoPlay loop />
         </View>
       }
-    </TouchableOpacity>
+      <DropdownAlert alert={func => (dropDownAlertRef = func)} />
+      </View>
+    // </TouchableOpacity>
   );
 };
 
