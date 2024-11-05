@@ -94,6 +94,26 @@ const Dashboard = (props) => {
     return interval, unsubscribe, unsub;
   }, []);
 
+  useEffect(() => {
+    if (vehicle_type !== 0) {
+      database()
+        .ref(`drivers/${vehicle_type}/${global.id}`)
+        .on("value", (snapshot) => {
+          console.log("snap", snapshot.val());
+          console.log(`drivers/${vehicle_type}/${global.id}`);
+
+          if (
+            snapshot.val()?.booking.booking_status == 1 &&
+            snapshot.val()?.online_status == 1
+          ) {
+            navigation.navigate("BookingRequest", {
+              trip_id: snapshot.val().booking.booking_id,
+            });
+          }
+        });
+    }
+  }, [vehicle_type]);
+
   const change_state = (value) => {
     if (value != 2) {
       if (value) {
@@ -140,8 +160,7 @@ const Dashboard = (props) => {
     } catch (e) {}
   };
 
-  console.log('dashid', global.id);
-  
+  console.log("dashid", global.id);
 
   const call_dashboard = async () => {
     console.log("Dashboard Call : ");
@@ -171,18 +190,24 @@ const Dashboard = (props) => {
           response.data.result.trip_type
         );
         setGtnStatus(response.data.result.gth_status);
-        check_request(response.data.result.request_booking_id,response.data.result.vehicle_type);
+        check_request(
+          response.data.result.request_booking_id,
+          response.data.result.vehicle_type
+        );
         console.log("Request : " + response.data.result.request_booking_id);
       })
       .catch((error) => {
-        console.log('dasherr',error);
+        console.log("dasherr", error);
         setLoading(false);
       });
   };
 
-  const check_request = (booking_id,vt) => {
+  const check_request = (booking_id, vt) => {
     if (booking_id != 0) {
-      navigation.navigate("BookingRequest", { trip_id: booking_id, vehicle_type: vt  });
+      navigation.navigate("BookingRequest", {
+        trip_id: booking_id,
+        vehicle_type: vt,
+      });
     }
   };
   const check_booking = (booking_id, trip_type) => {
@@ -411,11 +436,10 @@ const Dashboard = (props) => {
           backgroundColor: colors.theme_bg_three,
           flexDirection: "row",
           position: "absolute",
-          top: Platform.OS === 'ios' ? 50 : 20,
+          top: Platform.OS === "ios" ? 50 : 20,
           width: "90%",
           marginLeft: "5%",
           borderRadius: 10,
-
         }}
       >
         {/* <View style={{ width: 50, right: 0, top: 450, position: "absolute" }}>
@@ -784,9 +808,6 @@ const Dashboard = (props) => {
             </Text>
           </TouchableOpacity>
         )}
-
-
-        
       </View>
       {loading == true && (
         <View
