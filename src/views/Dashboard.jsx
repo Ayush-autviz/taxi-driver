@@ -87,7 +87,10 @@ const Dashboard = (props) => {
         console.log("id" + id);
         console.log("type" + type);
         if (type == 1 && id != undefined) {
-          navigation.navigate("BookingRequest", { trip_id: id });
+          navigation.navigate("BookingRequest", {
+            trip_id: id,
+            vehicle_type: vehicle_type,
+          });
         }
       }
     });
@@ -108,6 +111,7 @@ const Dashboard = (props) => {
           ) {
             navigation.navigate("BookingRequest", {
               trip_id: snapshot.val().booking.booking_id,
+              vehicle_type: vehicle_type,
             });
           }
         });
